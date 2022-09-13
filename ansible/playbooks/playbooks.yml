@@ -1,0 +1,54 @@
+---
+  # Play1 - WebServer related tasks
+  - name: playbook1
+    hosts: webservers
+    become: yes
+    tasks:
+    - name: latest version of all required packages installed
+      yum:
+        name:
+          - apache2
+          - nginx
+          - curl
+        state: latest
+  
+    - name: httpd enabled and running
+      service:
+        name: apache2
+        enabled : true
+        state: started
+         
+  
+    - name: nginx enabled and running
+      service:
+        name: nginx
+        enabled: true
+        state: stopped   
+
+    - name: deploy index.html file
+      template:
+        src: /etc/ansible/templates/index.html.j2
+        dest : /var/www/html/index.html 
+
+    - name: appliquer ip a
+      shell:
+        cmd: curl ansible_lb_1
+      register : output 
+
+    - name: affciher résultat ip a
+      debug:
+        msg : "le message est {{ output.stdout_lines }}"
+
+    # Set myTime
+    - name: Set myTime
+      set_fact:
+        myTime: "{{ ansible_date_time.epoch }}"
+
+    # Show results
+    - name: Result
+      debug:
+        msg: 
+        - "- The timestamp of now: {{ myTime }}"
+        - "- Convert timestamp to date: {{ '%Y-%m-%d %H:%M:%S' | strftime(myTime) }}"
+
+  

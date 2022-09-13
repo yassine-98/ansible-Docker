@@ -1,0 +1,16 @@
+ansible_master_1
+
+[webservers]
+ansible_web_1
+
+
+
+[dbservers]
+ansible_db_1
+
+[lb]
+ansible_lb_1
+
+[all:vars]
+ansible_ssh_user=root
+ansible_ssh_pass=ansible
