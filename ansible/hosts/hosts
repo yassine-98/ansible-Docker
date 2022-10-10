@@ -1,15 +1,13 @@
-ansible_master_1
+[masters]
+ansible-master-1
 
 [webservers]
-ansible_web_1
-
-
+ansible-web-1
 
 [dbservers]
-ansible_db_1
+ansible-db-1
 
-[lb]
-ansible_lb_1
+
 
 [all:vars]
 ansible_ssh_user=root

@@ -1,7 +1,16 @@
 <html>
 
     <body>
-        bonjour {{ansible_hostname}}
+
+       <h1> bonjour {{ansible_hostname}} <h2>
+
+        {% for i in list: %}
+        <p>
+        {{i}}
+        <p>
+        {% endfor %}
+
+        
     <body>
 
  <html>

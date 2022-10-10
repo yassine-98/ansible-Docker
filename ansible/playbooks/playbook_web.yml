@@ -3,7 +3,16 @@
   - name: playbook1
     hosts: webservers
     become: yes
+    vars :
+      list:
+        - "Nom complet = Yassine EL BAHI "
+        - "Status = Etudiant"
+        - "Ville = Reims"
+        - "Pays = France"
+     
     tasks:
+
+
     - name: latest version of all required packages installed
       yum:
         name:
@@ -12,28 +21,32 @@
           - curl
         state: latest
   
-    - name: httpd enabled and running
+    - name: httpd state running
       service:
         name: apache2
         enabled : true
         state: started
          
-  
-    - name: nginx enabled and running
+    - name: nginx state stopped
       service:
         name: nginx
         enabled: true
         state: stopped   
 
-    - name: deploy index.html file
+    - name: deploy index.html.jinja2 file
       template:
         src: /etc/ansible/templates/index.html.j2
         dest : /var/www/html/index.html 
 
     - name: appliquer ip a
       shell:
-        cmd: curl ansible_lb_1
+        cmd: curl ansible-web-1
       register : output 
+
+    
+    - name: affciher variable host
+      debug:
+        msg : "les variables sont {{ansible_ssh_user}} et {{ansible_ssh_pass}}"  
 
     - name: affciher résultat ip a
       debug:
