@@ -1,0 +1,46 @@
+---
+- name: Install mysql server 8 and initialize
+  hosts: dbservers
+  gather_facts: false
+  become: true
+  vars:
+    mysql_user: 'user'
+    mysql_password: 'password'
+    mysql_db: 'db_test'
+
+  tasks:
+    - name: Ensure required packages are installed
+      yum:
+        name:
+          - mysql-server
+          - python3-pip
+          - libmysqlclient-dev
+          - MySQLdb
+      
+        state: latest  
+
+ 
+
+    - name: Ensure mysql service is running
+      service:
+        name: mysql
+        state: started
+        enabled: yes
+    
+    - name: Ensure pymysql module is present
+      pip:
+        name: pymysql
+        state: present
+ 
+    
+    - name: Create Database
+      mysql_db:
+        name: "{{mysql_db}}"
+        state: present
+  
+
+    
+
+
+
+   
